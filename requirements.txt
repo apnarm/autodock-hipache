@@ -1,0 +1,2 @@
+https://github.com/prologic/autodock/archive/master.zip#egg=autodock
+https://github.com/prologic/hipachectl/archive/master.zip#egg=hipachectl

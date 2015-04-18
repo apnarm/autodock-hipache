@@ -105,22 +105,22 @@ class Hipache(Plugin):
     def container_stopped(self, event, **data):
         logging.info("Container {} stopped".format(data["id"][:10]))
 
-        self._remote_container(data["id"])
+        self._remove_container(data["id"])
 
     def container_killed(self, event, **data):
         logging.info("Container {} killed".format(data["id"][:10]))
 
-        self._remote_container(data["id"])
+        self._remove_container(data["id"])
 
     def container_died(self, event, **data):
         logging.info("Container {} died".format(data["id"][:10]))
 
-        self._remote_container(data["id"])
+        self._remove_container(data["id"])
 
     def container_paused(self, event, **data):
         logging.info("Container {} paused".format(data["id"][:10]))
 
-        self._remote_container(data["id"])
+        self._remove_container(data["id"])
 
     def container_restarted(self, event, **data):
         logging.info("Container {} restarted".format(data["id"][:10]))

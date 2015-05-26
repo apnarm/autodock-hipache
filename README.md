@@ -20,6 +20,8 @@ Link and start the autodock Hipache Plugin:
 
 Now whenever you start a new container autodock will listen for Docker events and discover containers that have been started. The `autodock-hipache` plugin will specifically listen for starting containers that have a `VIRTUALHOST` environment variable and reconfigure the running `hipache` container.
 
+An optional `ALIAS` environment value can be given as an extra virtualhost typically used for a `www.` alias to a domain.
+
 Start a "Hello World" Web Application:
 
     $ docker run -d -e VIRTUALHOST=hello.local prologic/hello

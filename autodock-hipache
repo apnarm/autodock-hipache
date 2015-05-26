@@ -6,6 +6,8 @@
 Automatically reconfigure hipache virtualhosts upon on container events.
 When a container is started and has an environment variable called VIRTUALHOST
 it is used to reconfigure hipache to route web requests to the new container.
+An optional ALIAS environment value can be given as an extra virtualhost
+typically used for a www. alias to a domain.
 """
 
 
@@ -50,7 +52,7 @@ class Hipache(Plugin):
         map(self._add_container, self.rpc.docker("containers", True))
 
     def _add_container(self, id):
-        ip, port, ports, virtualhost = self._get_container_info(id)
+        ip, port, ports, virtualhost, alias = self._get_container_info(id)
 
         if not virtualhost:
             return
@@ -64,12 +66,15 @@ class Hipache(Plugin):
             return
 
         logging.info(
-            "Container {} requested routing for {} to {}:{}".format(
-                id, virtualhost, ip, port
+            "Container {} requested routing for {} ({}) to {}:{}".format(
+                id, virtualhost, alias or "", ip, port
             )
         )
 
         self.hipache.add(virtualhost, virtualhost, ip, port)
+
+        if alias:
+            self.hipache.add(virtualhost, alias, ip, port)
 
     def _get_container_info(self, id):
         info = self.rpc.docker("inspect_container", id)
@@ -83,19 +88,23 @@ class Hipache(Plugin):
 
         port = int(env.get("PORT", "80"))
         virtualhost = env.get("VIRTUALHOST", None)
+        alias = env.get("ALIAS", None)
 
-        return ip, port, ports, virtualhost
+        return ip, port, ports, virtualhost, alias
 
     def _remove_container(self, id):
-        ip, port, ports, virtualhost = self._get_container_info(id)
+        ip, port, ports, virtualhost, alias = self._get_container_info(id)
 
         logging.info(
-            "Container {} routing removed for {} to {}:{}".format(
-                id, virtualhost, ip, port
+            "Container {} routing removed for {} ({}) to {}:{}".format(
+                id, virtualhost, alias or "", ip, port
             )
         )
 
         self.hipache.delete(virtualhost, virtualhost, ip, port)
+
+        if alias:
+            self.hipache.delete(virtualhost, alias, ip, port)
 
     def container_started(self, event, **data):
         logging.info("Container {} started".format(data["id"][:10]))

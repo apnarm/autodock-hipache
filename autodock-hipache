@@ -84,7 +84,7 @@ class Hipache(Plugin):
 
         ip = info["NetworkSettings"]["IPAddress"]
 
-        env = dict([e.split("=") for e in info["Config"]["Env"]])
+        env = dict([e.replace("==", "=").split("=") for e in info["Config"]["Env"]])
 
         port = int(env.get("PORT", "80"))
         virtualhost = env.get("VIRTUALHOST", None)

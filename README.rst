@@ -3,6 +3,8 @@ autodock-hipache
 
 Hipache Plugin for autodock.
 
+autodock-hipache is MIT licensed.
+
 .. note:: See: `autodock <https://github.com/prologic/autodock>`_
 
 Basic Usage

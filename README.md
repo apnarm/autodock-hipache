@@ -3,6 +3,8 @@ autodock-hipache
 
 Hipache Plugin for autodock.
 
+autodock-hipache is MIT licensed.
+
 > **note**
 >
 > See: [autodock](https://github.com/prologic/autodock)
@@ -38,7 +40,7 @@ Now assuming you had `hello.local` configured in your `/etc/hosts` pointing to y
 
 `docker-compose.yml`:
 
-``` {.sourceCode .yaml}
+``` sourceCode
 autodock:
     image: prologic/autodock
     ports:

@@ -1,6 +1,10 @@
 autodock-hipache
 ================
 
+.. image:: https://badge.imagelayers.io/prologic/autodock-hipache:latest.svg
+   :target: https://imagelayers.io/?images=prologic/autodock-hipache:latest
+   :alt: Image Layers
+
 Hipache Plugin for autodock.
 
 autodock-hipache is MIT licensed.

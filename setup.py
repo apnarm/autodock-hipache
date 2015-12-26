@@ -12,7 +12,7 @@ def parse_requirements(filename):
 
 setup(
     name="autodock-hipache",
-    version="0.0.1",
+    version="0.0.2",
     description="autodock hipache plugin",
     long_description=open("README.rst", "r").read(),
     author="James Mills",

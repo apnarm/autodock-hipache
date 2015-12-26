@@ -29,25 +29,19 @@ An optional `ALIAS` environment value can be given as an extra virtualhost typic
 Start a "Hello World" Web Application:
 
     $ docker run -d -e VIRTUALHOST=hello.local prologic/hello
-
-Now assuming you had `hello.local` configured in your `/etc/hosts` pointing to your `hipache` container you can now visit <http://hello.local/>
-
-    echo "127.0.0.1 hello.local" >> /etc/hosts
-    curl -q -o - http://hello.local/
+    curl -q -o - -H 'Host: hello.local' http://localhost/
     Hello World!
 
 > **note**
 >
-> This method of hosting and managing webapps and websites is in production deployments and talked about in more detail in the post [A Docker-based mini-PaaS](http://shortcircuit.net.au/~prologic/blog/article/2015/03/24/a-docker-based-mini-paas/).
-
+> This method of hosting and managing webapps and websites is in  
+> production deployments and talked about in more detail in the post A Docker-based mini-PaaS.
+>
 `docker-compose.yml`:
 
 ``` sourceCode
 autodock:
     image: prologic/autodock
-    ports:
-        - "1338:1338/udp"
-        - "1338:1338/tcp"
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
 
@@ -57,14 +51,28 @@ autodockhipache:
         - autodock
         - hipache:redis
 
+sslcerts:
+    image: prologic/mksslcrt
+    command: "*.mydomain.com"
+
+hipache:
+    image: prologic/hipache
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes_from:
+        - sslcerts
+
 hello:
     image: prologic/hello
     environment:
-        - VIRTUALHOST=hello.local
-
-hipache:
-    image: hipache
-    ports:
-        - 80:80
-        - 443:443
+        - VIRTUALHOST=hello.mydomain.com
+        - ALIAS=hello.local
 ```
+
+> **note**
+>
+> The version of Hipache used here will not startup unless you have  
+> setup SSL certificates, so the sslcerts volume is requried for a correctly functionining system.
+>
+

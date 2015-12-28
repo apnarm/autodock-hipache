@@ -80,7 +80,7 @@ class Hipache(Plugin):
         if port not in ports:
             logging.warning(
                 "Container {} requesting routing for {} to unexposed {}:{}".format(
-                    id, virtualhost, ip, port
+                    id[:10], virtualhost, ip, port
                 )
             )
             return

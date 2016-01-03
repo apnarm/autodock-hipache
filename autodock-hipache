@@ -117,7 +117,7 @@ class Hipache(Plugin):
         env = dict(
             [
                 e.replace("==", "=").split("=")
-                for e in response["Config"]["Env"]
+                for e in response["Config"].get("Env", []) or []
             ]
         )
 
@@ -137,6 +137,10 @@ class Hipache(Plugin):
                     id[:10]
                 )
             )
+            return
+
+        if info.virtualhost is None:
+            return
 
         logging.info(
             "Container {} routing removed for {} ({}) to {}:{}".format(

@@ -1,2 +1,2 @@
-autodock
 hipachectl
+git+https://github.com/prologic/autodock#egg=autodock

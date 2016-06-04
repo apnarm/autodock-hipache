@@ -116,7 +116,7 @@ class Hipache(Plugin):
 
         env = dict(
             [
-                e.replace("==", "=").split("=")
+                e.replace("==", "=").split("=", 1)
                 for e in response["Config"].get("Env", []) or []
             ]
         )
